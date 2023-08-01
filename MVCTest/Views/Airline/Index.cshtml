@@ -1,0 +1,59 @@
+﻿@model IEnumerable<MVCTest.Models.Flight>
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> signInManager
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Available Flight</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArrivalCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvailableSpace)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartureCity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArrivalCity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartureTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AvailableSpace)
+                    </td>
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            <td>
+                                <a class="btn btn-primary" asp-action="FlightBooking" asp-route-id="@item.FlightNumber">Book</a>
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>

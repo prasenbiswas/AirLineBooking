@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> signInManager
+
+@if (!signInManager.IsSignedIn(User))
+{
+    <h2 class="text-center">Welcome to Airline Booking</h2>
+    <p class="text-center">Please Login..</p>
+}
+@if (signInManager.IsSignedIn(User))
+{
+    @if (User.IsInRole("Admin"))
+    {
+        <h2 class="text-center">Welcome to Airline Booking</h2>
+        <p class="text-center">Hello <strong>Admin</strong>.</p>
+    }
+    @if (!User.IsInRole("Admin"))
+    {
+        <h2 class="text-center">Welcome to Airline Booking</h2>
+        <p class="text-center">Hello <strong>User</strong>.</p>
+
+    }
+}
